@@ -2,83 +2,18 @@
 <html>
 
 <head>
-	<title>D3.js Tree Example</title>
-	<script src="https://d3js.org/d3.v7.min.js"></script>
+	<title>Example</title>
+	<!-- <script src="https://d3js.org/d3.v7.min.js"></script> -->
 	<!-- shall we make this v5? -->
-	<style>
-		body {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			height: 100vh;
-			margin: 0;
-		}
-
-		.tree-container {
-			text-align: center;
-		}
-
-		.link {
-			fill: none;
-			stroke: #ccc;
-			stroke-width: 2px;
-		}
-
-		.node {
-			fill: #fff;
-			stroke: #000;
-			stroke-width: 2px;
-		}
-	</style>
 </head>
 
 <body>
-	<div class="tree-container">
-		<svg width="400" height="400"></svg>
-	</div>
 
-	<script>
-		var data = {
-			name: "Parent",
-			children: [
-				{ name: "Child 1" },
-				{ name: "Child 2" },
-				{ name: "Child 3" }]
-		};
-
-		var treeLayout = d3.tree().size([400, 200]);
-
-		var rootNode = d3.hierarchy(data);
-		var treeData = treeLayout(rootNode);
-
-		var svg = d3.select("svg");
-		var links = svg.selectAll(".link")
-			.data(treeData.links())
-			.enter()
-			.append("path")
-			.attr("class", "link")
-			.attr("d", d3.linkVertical()
-				.x(function (d) { return d.x; })
-				.y(function (d) { return d.y + 20; })
-			);
-
-		var nodes = svg.selectAll(".node")
-			.data(treeData.descendants())
-			.enter()
-			.append("circle")
-			.attr("class", "node")
-			.attr("cx", function (d) { return d.x; })
-			.attr("cy", function (d) { return d.y + 20; })
-			.attr("r", 5);
-
-		svg.selectAll("text")
-			.data(treeData.descendants())
-			.enter()
-			.append("text")
-			.text(function (d) { return d.data.name; })
-			.attr("x", function (d) { return d.x + 10; })
-			.attr("y", function (d) { return d.y + 20; });
-	</script>
+	<textarea id="resultTextbox" rows="4" cols="50"></textarea>
+	<form id="myForm">
+		<button type="button" id="submitButton">Submit</button>
+	</form>
+	<script src="test.js"></script>
 </body>
 
 </html>

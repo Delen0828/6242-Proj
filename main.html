@@ -22,14 +22,14 @@
 
 <body>
 	<div id="d3-container"></div>
-	<button id="updateButton">Update</button>
-
+	<button id="likeButton">Like</button>
+	<button id="dislikeButton">Dislike</button>
 	<!-- Include D3.js -->
 	<script src="https://d3js.org/d3.v5.min.js"></script>
 
 	<script>
 		// Data structure initialization
-		let nodesData = Array.from({ length: 5 }, (_, i) => ({ id: i, value: 0.0, time: 1.0, text: 'node' }));
+		let nodesData = Array.from({ length: 5 }, (_, i) => ({ id: i, value: 0.0, time: 0.0, text: 'node' }));
 
 		// Dimensions for the SVG container
 		const width = 600, height = 400;
@@ -44,11 +44,10 @@
 			.data(nodesData)
 			.enter().append("g")
 			.attr("class", "node")
-			.attr("transform", (d, i) => `translate(${100 + i * 100},${height / 2})`)
-			.on("click", (d) => { // Event listener for node clicks
-				updateNodes(total_time,d.id)
-				updateLabels();
-			});
+			.attr("transform", (d, i) => `translate(${100 + i * 100},${height / 2})`);
+			// .on("click", (d) => { // Event listener for node clicks
+			// 	updateNodes(total_time,d.id)
+			// 	updateLabels();});
 
 		// Draw circles for each node
 		node.append("circle")
@@ -72,14 +71,24 @@
 		// 	.text(d => d.text);
 
 		// Function to update node values
-		function updateNodes(total_round,index) {
+		function updateNodes(total_round,feedback) {
 			// Select a random node and increment its value
 			// const randomIndex = Math.floor(Math.random() * nodesData.length);
 			// index should be the node with highest UCB (three algorithms)
-			nodesData[index].time += 1;
+			//TODO choose index of max
+			console.log('updating')
+			var maxValue=nodesData[0];
+			var maxIndex=0;
+			for (var i = 0; i < nodesData.length; i++) {
+				if (nodesData[i]>maxValue){
+					maxValue=nodesData[i];
+					maxIndex=i;
+				}
+			}
+			nodesData[maxIndex].time += feedback;
 			total_round.value += 1;
 			for (var i = 0; i < nodesData.length; i++) {
-				var temp = Math.floor((nodesData[i].time / total_round.value + 0.01*Math.sqrt(2.0 * Math.log(total_round.value) / nodesData[i].time))*100)/100;
+				var temp = Math.min(1.00, Math.floor((nodesData[i].time / total_round.value + 0.2*Math.sqrt(2.0 * Math.log(total_round.value) / (nodesData[i].time+1)))*100)/100);
 				console.log(nodesData[i].time / total_round.value);
 				nodesData[i].value = temp;
 				
@@ -97,7 +106,8 @@
 
 		// Event listener for the button
 		//TODO should be simulating user feedback
-		// document.getElementById('updateButton').addEventListener('click', updateNodes(total_time));
+		document.getElementById('likeButton').addEventListener('click', function(){updateNodes(total_time,true)});
+		document.getElementById('dislikeButton').addEventListener('click', function(){updateNodes(total_time,false)});
 	</script>
 </body>
 

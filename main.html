@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Hierarchical Structure Visualization</title>
+	<style>
+		/* Basic styling */
+		.node {
+			stroke: black;
+			stroke-width: 1.5px;
+			cursor: pointer;
+			/* Change cursor on hover over the node */
+		}
+
+		.label,
+		.node-title {
+			font: 10px sans-serif;
+			fill: black;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="d3-container"></div>
+	<button id="updateButton">Update</button>
+
+	<!-- Include D3.js -->
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+
+	<script>
+		// Data structure initialization
+		let nodesData = Array.from({ length: 5 }, (_, i) => ({ id: i, value: 0.0, time: 1.0, text: 'node' }));
+
+		// Dimensions for the SVG container
+		const width = 600, height = 400;
+		const total_time = {value: 0.0};
+		// Create SVG container
+		const svg = d3.select("#d3-container").append("svg")
+			.attr("width", width)
+			.attr("height", height);
+
+		// Create groups for nodes
+		const node = svg.selectAll(".node")
+			.data(nodesData)
+			.enter().append("g")
+			.attr("class", "node")
+			.attr("transform", (d, i) => `translate(${100 + i * 100},${height / 2})`)
+			.on("click", (d) => { // Event listener for node clicks
+				updateNodes(total_time,d.id)
+				updateLabels();
+			});
+
+		// Draw circles for each node
+		node.append("circle")
+			.attr("r", 20)
+			.attr("fill", "lightblue");
+
+		// Add labels to nodes
+		node.append("text")
+			.attr("class", "label")
+			.attr("dy", ".35em")
+			.attr("text-anchor", "middle")
+			.text(d => d.value);
+
+		// Add 'node' text under each node
+		//TODO should be the name of restaurants
+
+		// node.append("text")
+		// 	.attr("class", "node-title")
+		// 	.attr("dy", " .01em")
+		// 	.attr("text-anchor", "middle")
+		// 	.text(d => d.text);
+
+		// Function to update node values
+		function updateNodes(total_round,index) {
+			// Select a random node and increment its value
+			// const randomIndex = Math.floor(Math.random() * nodesData.length);
+			// index should be the node with highest UCB (three algorithms)
+			nodesData[index].time += 1;
+			total_round.value += 1;
+			for (var i = 0; i < nodesData.length; i++) {
+				var temp = Math.floor((nodesData[i].time / total_round.value + 0.01*Math.sqrt(2.0 * Math.log(total_round.value) / nodesData[i].time))*100)/100;
+				console.log(nodesData[i].time / total_round.value);
+				nodesData[i].value = temp;
+				
+			}
+			// Update labels
+			updateLabels();
+		}
+
+		// Function to update labels
+		function updateLabels() {
+			svg.selectAll(".label")
+				.data(nodesData)
+				.text(d => d.value);
+		}
+
+		// Event listener for the button
+		//TODO should be simulating user feedback
+		// document.getElementById('updateButton').addEventListener('click', updateNodes(total_time));
+	</script>
+</body>
+
+</html>

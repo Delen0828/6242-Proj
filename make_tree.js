@@ -1,5 +1,5 @@
 var data = {
-	name: "Parent",value: 'User',
+	name: "Parent", value: 'User',
 	children: [
 		{ name: "Child 1", value: 0 },
 		{ name: "Child 2", value: 0 },
@@ -40,3 +40,26 @@ svg.selectAll("text")
 	.text(function (d) { return d.data.value; })
 	.attr("x", function (d) { return d.x + 10; })
 	.attr("y", function (d) { return d.y + 20; });
+
+
+
+const submitButton = document.getElementById('submitButton');
+// const resultTextbox = document.getElementById('resultTextbox');
+
+submitButton.addEventListener('click', function () {
+	// const return_value
+
+	var svg = d3.select("svg");
+
+	console.log(1);
+	svg.selectAll("text")
+		.data(treeData.descendants())
+		.enter()
+		.append("text")
+		.text(function (d) { return d.data.value + 1; })
+		.attr("x", function (d) { return d.x + 20; })
+		.attr("y", function (d) { return d.y + 30; });
+
+})
+
+

@@ -14,7 +14,7 @@
 
 		.label,
 		.node-title {
-			font: 10px sans-serif;
+			font: 12px sans-serif;
 			fill: black;
 		}
 	</style>
@@ -24,90 +24,128 @@
 	<div id="d3-container"></div>
 	<button id="likeButton">Like</button>
 	<button id="dislikeButton">Dislike</button>
+	<button id="simButton">Simulate</button>
 	<!-- Include D3.js -->
 	<script src="https://d3js.org/d3.v5.min.js"></script>
 
 	<script>
-		// Data structure initialization
-		let nodesData = Array.from({ length: 5 }, (_, i) => ({ id: i, value: 0.0, time: 0.0, text: 'node' }));
-
+		const n_node = 5;
 		// Dimensions for the SVG container
-		const width = 600, height = 400;
-		const total_time = {value: 0.0};
+		const width = 750, height = 500;
+		const total_time = { value: 0.0 };
+		const nodesData = Array.from({ length: n_node }, (_, i) => ({ id: i, value: 0.0, time: 0.0, text: 'text' }));
 		// Create SVG container
 		const svg = d3.select("#d3-container").append("svg")
 			.attr("width", width)
 			.attr("height", height);
+		nodes = d3_plot(nodesData)
+		text_plot(nodes)
 
-		// Create groups for nodes
-		const node = svg.selectAll(".node")
-			.data(nodesData)
-			.enter().append("g")
-			.attr("class", "node")
-			.attr("transform", (d, i) => `translate(${100 + i * 100},${height / 2})`);
+
+		async function load_yelp() {
+			const review_data = await fetch('./yelp_dataset/review.json')
+			const review_json = await review_data.json()
+			const yelp_review = await Object.entries(review_json).slice(0, n_node);
+			return yelp_review
+			// console.log(keyValueArray[0][0])
+		}
+
+		async function get_name() {
+			yelp_review = await load_yelp()
+			let textData = Array.from({ length: n_node }, (_, i) => ({ id: i, text: yelp_review[i][0] }));
+			return textData
+		}
+		async function get_review() {
+			yelp_review = await load_yelp()
+			let reviewData = Array.from({ length: n_node }, (_, i) => ({ id: i, review: yelp_review[i][1] }));
+			return reviewData
+		}
+		async function text_plot(node) {
+			textData = await get_name()
+			node.append("text")
+				.data(textData)
+				.attr("class", "node-title")
+				.attr("y", 40)
+				.attr("text-anchor", "middle")
+				.text(d => d.text.substring(0, 15));
+		}
+		function d3_plot() {
+			// const nodesData = await get_node();
+			const node = svg.selectAll(".node")
+				.data(nodesData)
+				.enter().append("g")
+				.attr("class", "node")
+				.attr("transform", (d, i) => `translate(${100 + i * 100},${height / 2})`);
 			// .on("click", (d) => { // Event listener for node clicks
 			// 	updateNodes(total_time,d.id)
 			// 	updateLabels();});
 
-		// Draw circles for each node
-		node.append("circle")
-			.attr("r", 20)
-			.attr("fill", "lightblue");
+			// Draw circles for each node
+			node.append("circle")
+				.attr("r", 20)
+				.attr("fill", "lightblue");
 
-		// Add labels to nodes
-		node.append("text")
-			.attr("class", "label")
-			.attr("dy", ".35em")
-			.attr("text-anchor", "middle")
-			.text(d => d.value);
+			// Add labels to nodes
+			node.append("text")
+				.attr("class", "label")
+				.attr("y", 5)
+				.attr("text-anchor", "middle")
+				.text(d => d.value);
+			return node
+		}
 
-		// Add 'node' text under each node
-		//TODO should be the name of restaurants
 
-		// node.append("text")
-		// 	.attr("class", "node-title")
-		// 	.attr("dy", " .01em")
-		// 	.attr("text-anchor", "middle")
-		// 	.text(d => d.text);
 
 		// Function to update node values
-		function updateNodes(total_round,feedback) {
+		async function updateNodes(total_round, feedback = true, is_sim = false) {
 			// Select a random node and increment its value
 			// const randomIndex = Math.floor(Math.random() * nodesData.length);
 			// index should be the node with highest UCB (three algorithms)
 			//TODO choose index of max
-			console.log('updating')
-			var maxValue=nodesData[0];
-			var maxIndex=0;
+			
+			reviewData = await get_review()
+			// console.log(reviewData)
+			var maxValue = nodesData[0].value;
+			var maxIndex = 0;
 			for (var i = 0; i < nodesData.length; i++) {
-				if (nodesData[i]>maxValue){
-					maxValue=nodesData[i];
-					maxIndex=i;
+				if (nodesData[i].value > maxValue) {
+					maxValue = nodesData[i].value;
+					maxIndex = i;
 				}
 			}
-			nodesData[maxIndex].time += feedback;
+			console.log(maxIndex)
+			if (is_sim == false) {
+				nodesData[maxIndex].time += feedback;
+			}
+			else {
+				var temp_len = reviewData[maxIndex]['review'].length
+				nodesData[maxIndex].time += reviewData[maxIndex]['review'][total_round.value % temp_len]
+				// console.log(reviewData[maxIndex]['review'][total_round.value % temp_len])
+				//TODO add total round to this
+			}
 			total_round.value += 1;
 			for (var i = 0; i < nodesData.length; i++) {
-				var temp = Math.min(1.00, Math.floor((nodesData[i].time / total_round.value + 0.2*Math.sqrt(2.0 * Math.log(total_round.value) / (nodesData[i].time+1)))*100)/100);
-				console.log(nodesData[i].time / total_round.value);
+				var temp = Math.floor((nodesData[i].time / total_round.value + 0.5 * Math.sqrt(2.0 * Math.log(total_round.value) / (nodesData[i].time + 1))) * 100) / 100;
+				// console.log(nodesData[i].time / total_round.value);
 				nodesData[i].value = temp;
-				
 			}
 			// Update labels
 			updateLabels();
 		}
 
 		// Function to update labels
-		function updateLabels() {
+		async function updateLabels() {
 			svg.selectAll(".label")
 				.data(nodesData)
 				.text(d => d.value);
+			d3_plot()
 		}
 
 		// Event listener for the button
 		//TODO should be simulating user feedback
-		document.getElementById('likeButton').addEventListener('click', function(){updateNodes(total_time,true)});
-		document.getElementById('dislikeButton').addEventListener('click', function(){updateNodes(total_time,false)});
+		document.getElementById('likeButton').addEventListener('click', function () { updateNodes(total_time, feedback = true) });
+		document.getElementById('dislikeButton').addEventListener('click', function () { updateNodes(total_time, feedback = false) });
+		document.getElementById('simButton').addEventListener('click', function () { updateNodes(total_time, feedback = true, is_sim = true) });
 	</script>
 </body>
 

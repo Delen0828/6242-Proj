@@ -12,28 +12,42 @@
 			/* Change cursor on hover over the node */
 		}
 
-		.label,
-		.node-title {
+		.label,.node-title {
 			font: 12px sans-serif;
 			fill: black;
 		}
+
 	</style>
 </head>
 
 <body>
+	<!-- Include D3.js -->
+	<script src="https://d3js.org/d3.v5.min.js"></script>
 	<div id="d3-container"></div>
+
+	Manual Response
 	<button id="likeButton">Like</button>
 	<button id="dislikeButton">Dislike</button>
+	<br>
+	Auto Simulate
 	<button id="simButton">Simulate</button>
 	<select id="simSelect" name="simulation round">
 		<option value=10>10 rounds</option>
 		<option value=50>50 rounds</option>
 		<option value=100>100 rounds</option>
 	</select>
-	<!-- Include D3.js -->
-	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<br>
+	Algorithm
+	<select id="algoSelect" name="algorithm">
+		<option value='UCB'>UCB</option>
+		<option value='LinUCB'>LinUCB</option>
+		<option value='Random'>Random</option>
+	</select>
+	<br>
+	<div id="vis-container"></div>
 
 	<script src="js.js"></script>
+	<script src="vis.js"></script>
 </body>
 
 </html>

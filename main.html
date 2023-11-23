@@ -25,6 +25,11 @@
 	<button id="likeButton">Like</button>
 	<button id="dislikeButton">Dislike</button>
 	<button id="simButton">Simulate</button>
+	<select id="simSelect" name="simulation round">
+		<option value=10>10 rounds</option>
+		<option value=50>50 rounds</option>
+		<option value=100>100 rounds</option>
+	</select>
 	<!-- Include D3.js -->
 	<script src="https://d3js.org/d3.v5.min.js"></script>
 
@@ -38,25 +43,25 @@
 		const svg = d3.select("#d3-container").append("svg")
 			.attr("width", width)
 			.attr("height", height);
-		nodes = d3_plot(nodesData)
-		text_plot(nodes)
+		nodes = d3_plot(nodesData);
+		text_plot(nodes);
 
 
 		async function load_yelp() {
-			const review_data = await fetch('./yelp_dataset/review.json')
-			const review_json = await review_data.json()
+			const review_data = await fetch('./yelp_dataset/review.json');
+			const review_json = await review_data.json();
 			const yelp_review = await Object.entries(review_json).slice(0, n_node);
 			return yelp_review
 			// console.log(keyValueArray[0][0])
 		}
 
 		async function get_name() {
-			yelp_review = await load_yelp()
+			yelp_review = await load_yelp();
 			let textData = Array.from({ length: n_node }, (_, i) => ({ id: i, text: yelp_review[i][0] }));
 			return textData
 		}
 		async function get_review() {
-			yelp_review = await load_yelp()
+			yelp_review = await load_yelp();
 			let reviewData = Array.from({ length: n_node }, (_, i) => ({ id: i, review: yelp_review[i][1] }));
 			return reviewData
 		}
@@ -102,35 +107,39 @@
 			// const randomIndex = Math.floor(Math.random() * nodesData.length);
 			// index should be the node with highest UCB (three algorithms)
 			//TODO choose index of max
-			
-			reviewData = await get_review()
-			// console.log(reviewData)
-			var maxValue = nodesData[0].value;
-			var maxIndex = 0;
-			for (var i = 0; i < nodesData.length; i++) {
-				if (nodesData[i].value > maxValue) {
-					maxValue = nodesData[i].value;
-					maxIndex = i;
+
+			reviewData = await get_review();
+			const repeat = document.getElementById("simSelect").value;
+			console.log(repeat)
+			for (var j = 0; j < repeat; j++) {
+				var maxValue = nodesData[0].value;
+				var maxIndex = 0;
+				for (var i = 0; i < nodesData.length; i++) {
+					if (nodesData[i].value > maxValue) {
+						maxValue = nodesData[i].value;
+						maxIndex = i;
+					}
 				}
+				console.log(maxIndex);
+				if (is_sim == false) {
+					nodesData[maxIndex].time += feedback;
+				}
+				else {
+					var temp_len = reviewData[maxIndex]['review'].length;
+					nodesData[maxIndex].time += reviewData[maxIndex]['review'][total_round.value % temp_len];
+					// console.log(reviewData[maxIndex]['review'][total_round.value % temp_len])
+					//TODO add total round to this
+				}
+				total_round.value += 1;
+				for (var i = 0; i < nodesData.length; i++) {
+					var temp = Math.floor((nodesData[i].time / total_round.value + 0.5 * Math.sqrt(2.0 * Math.log(total_round.value) / (nodesData[i].time + 1))) * 100) / 100;
+					// console.log(nodesData[i].time / total_round.value);
+					nodesData[i].value = temp;
+				}
+				// Update labels
+				updateLabels();
+				if (is_sim == false) { break; }
 			}
-			console.log(maxIndex)
-			if (is_sim == false) {
-				nodesData[maxIndex].time += feedback;
-			}
-			else {
-				var temp_len = reviewData[maxIndex]['review'].length
-				nodesData[maxIndex].time += reviewData[maxIndex]['review'][total_round.value % temp_len]
-				// console.log(reviewData[maxIndex]['review'][total_round.value % temp_len])
-				//TODO add total round to this
-			}
-			total_round.value += 1;
-			for (var i = 0; i < nodesData.length; i++) {
-				var temp = Math.floor((nodesData[i].time / total_round.value + 0.5 * Math.sqrt(2.0 * Math.log(total_round.value) / (nodesData[i].time + 1))) * 100) / 100;
-				// console.log(nodesData[i].time / total_round.value);
-				nodesData[i].value = temp;
-			}
-			// Update labels
-			updateLabels();
 		}
 
 		// Function to update labels
@@ -138,7 +147,7 @@
 			svg.selectAll(".label")
 				.data(nodesData)
 				.text(d => d.value);
-			d3_plot()
+			d3_plot();
 		}
 
 		// Event listener for the button

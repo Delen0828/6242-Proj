@@ -10,30 +10,40 @@ const svg = d3.select("#d3-container").append("svg")
 	.style("background", "#fcfaed");
 const total_regret = { value: 0.0 };
 let regret_history = [];
+const mapping = rand_map(n_node, 100000)
+// console.log(mapping)
 nodes = d3_plot(nodesData);
 text_plot(nodes);
 
+function rand_map(n_node, total_len) {
+	var rlist = [];
+	for (i = 0; i < n_node; i++) {
+		rlist.push(Math.floor(Math.random() * total_len));
+	}
+	return rlist
+}
 
 async function load_yelp() {
 	const review_data = await fetch('./yelp_dataset/review.json');
 	const review_json = await review_data.json();
-	const yelp_review = await Object.entries(review_json).slice(0, n_node);
+	const yelp_review = await Object.entries(review_json);
 	return yelp_review
 	// console.log(keyValueArray[0][0])
 }
 
-async function get_name() {
+async function get_name(mapping) {
 	yelp_review = await load_yelp();
-	let textData = Array.from({ length: n_node }, (_, i) => ({ id: i, text: yelp_review[i][0] }));
+	let textData = Array.from({ length: n_node }, (_, i) => ({ id: i, text: yelp_review[mapping[i]][0] }));
 	return textData
 }
-async function get_review() {
-	yelp_review = await load_yelp();
-	let reviewData = Array.from({ length: n_node }, (_, i) => ({ id: i, review: yelp_review[i][1] }));
+async function get_review(mapping) {
+	if (total_time.value == 0) { yelp_review = await load_yelp(); }
+	let reviewData = Array.from({ length: n_node }, (_, i) => ({ id: i, review: yelp_review[mapping[i]][1] }));
 	return reviewData
 }
 async function text_plot(node) {
-	textData = await get_name()
+	console.log(total_time.value)
+	if (total_time.value == 0) { textData = await get_name(mapping); }
 	node.append("text")
 		.data(textData)
 		.attr("class", "node-title")
@@ -60,12 +70,12 @@ function d3_plot() {
 
 
 // Function to update node values
-async function updateNodes(total_round, feedback = true, is_sim = false) {
+async function updateNodes(total_round, algo, feedback = true, is_sim = false) {
 
-	reviewData = await get_review();
+	reviewData = await get_review(mapping);
 	const repeat = document.getElementById("simSelect").value;
 	// console.log(repeat)
-	const algo = document.getElementById("algoSelect").value;
+
 	const m_ETC = 5;
 	for (var j = 0; j < repeat; j++) {
 		var maxValue = nodesData[0].value;
@@ -97,7 +107,7 @@ async function updateNodes(total_round, feedback = true, is_sim = false) {
 				if (total_round.value < n_node * m_ETC) {
 					temp = Math.floor(Math.random() * 100) / 100
 				}
-				else { temp = Math.floor((nodesData[i].time / total_round.value)*100)/100 }
+				else { temp = Math.floor((nodesData[i].time / total_round.value) * 100) / 100 }
 			}
 			console.log();
 			nodesData[i].value = temp;
@@ -131,10 +141,14 @@ async function drawNodes(node) {
 		.text(d => d.value);
 }
 
+
+const algo = document.getElementById("algoSelect").value;
+const comp_algo = document.getElementById("compSelect").value;
+
 // Event listener for the button
-document.getElementById('likeButton').addEventListener('mousedown', function () { updateNodes(total_time, feedback = true) });
-document.getElementById('dislikeButton').addEventListener('mousedown', function () { updateNodes(total_time, feedback = false) });
-document.getElementById('simButton').addEventListener('mousedown', function () { updateNodes(total_time, feedback = true, is_sim = true) });
+document.getElementById('likeButton').addEventListener('mousedown', function () { updateNodes(total_time, algo, feedback = true) });
+document.getElementById('dislikeButton').addEventListener('mousedown', function () { updateNodes(total_time, algo, feedback = false) });
+document.getElementById('simButton').addEventListener('mousedown', function () { updateNodes(total_time, algo, feedback = true, is_sim = true) });
 
 const sr = ScrollReveal({
 	distance: '65px',
@@ -145,4 +159,4 @@ const sr = ScrollReveal({
 
 
 sr.reveal('#d3-container', { delay: 10, origin: 'top' });
-sr.reveal('.button1', { delay: 200, origin: 'top' });
+sr.reveal('.button1', { delay: 10, origin: 'top' });

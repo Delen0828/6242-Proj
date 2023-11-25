@@ -26,6 +26,7 @@
 	<!-- Include D3.js -->
 	<script src="https://d3js.org/d3.v5.min.js"></script>
 
+<<<<<<< Updated upstream
 
 	<script src="https://unpkg.com/scrollreveal"></script>
 
@@ -83,6 +84,35 @@
 		</div>
 	</div> -->
 
+=======
+	Manual Response
+	<button id="likeButton">Like</button>
+	<button id="dislikeButton">Dislike</button>
+	<br>
+	Auto Simulate
+	<button id="simButton">Simulate</button>
+	<select id="simSelect" name="simulation round">
+		<option value=10>10 rounds</option>
+		<option value=50>50 rounds</option>
+		<option value=100>100 rounds</option>
+	</select>
+	<br>
+	Algorithm 1
+	<select id="algoSelect" name="algorithm">
+		<option value='UCB'>UCB</option>
+		<option value='ETC'>ETC</option>
+		<option value='Random'>Random</option>
+	</select>
+	Algorithm 2 (Comparison)
+	<select id="compSelect" name="algorithm">
+		<option value='None'>None</option>
+		<option value='UCB'>UCB</option>
+		<option value='ETC'>ETC</option>
+		<option value='Random'>Random</option>
+	</select>
+	<br>
+	<div id="vis-container"></div>
+>>>>>>> Stashed changes
 	<script src="js.js"></script>
 	<script src="vis.js"></script>
 </body>

@@ -61,14 +61,12 @@ function d3_plot() {
 
 // Function to update node values
 async function updateNodes(total_round, feedback = true, is_sim = false) {
-	// Select a random node and increment its value
-	// const randomIndex = Math.floor(Math.random() * nodesData.length);
-	// index should be the node with highest UCB (three algorithms)
-	//TODO choose index of max
 
 	reviewData = await get_review();
 	const repeat = document.getElementById("simSelect").value;
-	console.log(repeat)
+	// console.log(repeat)
+	const algo = document.getElementById("algoSelect").value;
+	const m_ETC=4;
 	for (var j = 0; j < repeat; j++) {
 		var maxValue = nodesData[0].value;
 		var maxIndex = 0;
@@ -80,7 +78,6 @@ async function updateNodes(total_round, feedback = true, is_sim = false) {
 			}
 		}
 		nodesData[maxIndex].color = 'coral';
-		//TODO make the max to be red
 		// console.log(nodesData[maxIndex]);
 		if (is_sim == false) {
 			nodesData[maxIndex].time += feedback;
@@ -93,7 +90,10 @@ async function updateNodes(total_round, feedback = true, is_sim = false) {
 		}
 		total_round.value += 1;
 		for (var i = 0; i < nodesData.length; i++) {
-			var temp = Math.floor((nodesData[i].time / total_round.value + 0.5 * Math.sqrt(2.0 * Math.log(total_round.value) / (nodesData[i].time + 1))) * 100) / 100;
+			var temp=0;
+			if (algo == 'UCB') { temp = Math.floor((nodesData[i].time / total_round.value + 0.5 * Math.sqrt(2.0 * Math.log(total_round.value) / (nodesData[i].time + 1))) * 100) / 100; }
+			if (algo == 'Random'){temp = Math.floor(Math.random() *100)/100}
+			// if (algo == 'ETC'){}
 			// console.log(nodesData[i].time / total_round.value);
 			nodesData[i].value = temp;
 		}
@@ -113,7 +113,6 @@ async function updateLabels() {
 	svg.selectAll(".label")
 		.data(nodesData)
 		.text(d => d.value);
-
 }
 
 async function drawNodes(node) {

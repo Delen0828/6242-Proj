@@ -22,10 +22,11 @@
 .container1 {
     display: flex;
     flex-wrap: warp;
+	margin-top: 40px;
 }
 
 #d3-container svg{
-    margin-left: 25px;
+    margin-left: 30px;
     display: inline-block;
     border: 1px solid transparent;
     border-radius: 10px;
@@ -51,10 +52,10 @@
 
 .title {
     background: transparent;
-    font-size: 20px;
+    font-size: 64px;
     font-weight: 700;
     color: white;
-    margin-left: 25px;
+    margin-left: 30px;
 }
 
 body {
@@ -72,13 +73,14 @@ body {
     font-size: 14px;
     font-weight: 500;
     border-radius: 10px;
-    transition: all .55s ease;
+    transition: all .50s ease;
 }
 
 #simButton:hover {
-    background: transparent;
+	/* margin-left: 5px; */
+    background: orange;
     border: 1px solid white;
-    transform: translateX(8px);
+    /* transform: translateX(5px); */
 }
 
 #manual-resp {
@@ -94,7 +96,7 @@ body {
 #likeButton i {
     display: block;
     color: black;
-    font-size: 18px;
+    font-size: 24px;
     transition: all .50s ease;
 }
 
@@ -105,12 +107,12 @@ body {
 #dislikeButton i {
     display: block;
     color: black;
-    font-size: 18px;
+    font-size: 24px;
     transition: all .50s ease;
 }
 
 #dislikeButton i:hover {
-    transform: translateY(-5px);
+    transform: translateY(5px);
 }
 
 #auto-sim {
@@ -133,9 +135,5 @@ body {
 }
 
 .algo-sel{
-    margin-left: 20px;
-}
-
-#n-select{
-    margin-left: 20px;
+    margin-left: 60px;
 }

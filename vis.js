@@ -66,4 +66,4 @@ document.getElementById('likeButton').addEventListener('mouseup', function () { 
 document.getElementById('dislikeButton').addEventListener('mouseup', function () { draw(regret_history) });
 
 sr.reveal('#vis-container', {delay:10, origin:'top'});
-sr.reveal('.algo-sel', {delay:200, origin:'top'});
+sr.reveal('.algo-sel', {delay:10, origin:'top'});

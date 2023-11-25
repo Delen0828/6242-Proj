@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Hierarchical Structure Visualization</title>
+	<title>Interactive Bandit</title>
 
 	<!-- Boxicons -->
 	<link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -30,18 +30,25 @@
 	<script src="https://unpkg.com/scrollreveal"></script>
 
 	<header>
-		<a href="#" class="title">Interactive Visualization of Recommendation System</a>
+		<a href="#" class="title">Interactive Bandit</a>
 	</header>
 
-	<div id='n-select'>Put n select button here.</div>
 
 	<div class="container1">
 		<div id="d3-container"></div>
 		<div class="algo-sel">
-			Algorithm
+			Algorithm 1
 			<select id="algoSelect" name="algorithm">
 				<option value='UCB'>UCB</option>
-				<option value='LinUCB'>LinUCB</option>
+				<option value='ETC'>ETC</option>
+				<option value='Random'>Random</option>
+			</select>
+			<br>
+			Algorithm 2 (Comparison)
+			<select id="compSelect" name="algorithm">
+				<option value='None'>None</option>
+				<option value='UCB'>UCB</option>
+				<option value='ETC'>ETC</option>
 				<option value='Random'>Random</option>
 			</select>
 			<div id="vis-container"></div>
@@ -83,32 +90,6 @@
 		</div>
 	</div> -->
 
-	Manual Response
-	<button id="likeButton">Like</button>
-	<button id="dislikeButton">Dislike</button>
-	<br>
-	Auto Simulate
-	<button id="simButton">Simulate</button>
-	<select id="simSelect" name="simulation round">
-		<option value=10>10 rounds</option>
-		<option value=50>50 rounds</option>
-		<option value=100>100 rounds</option>
-	</select>
-	<br>
-	Algorithm 1
-	<select id="algoSelect" name="algorithm">
-		<option value='UCB'>UCB</option>
-		<option value='ETC'>ETC</option>
-		<option value='Random'>Random</option>
-	</select>
-	Algorithm 2 (Comparison)
-	<select id="compSelect" name="algorithm">
-		<option value='None'>None</option>
-		<option value='UCB'>UCB</option>
-		<option value='ETC'>ETC</option>
-		<option value='Random'>Random</option>
-	</select>
-	<br>
 	<div id="vis-container"></div>
 	<script src="js.js"></script>
 	<script src="vis.js"></script>

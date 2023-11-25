@@ -66,7 +66,7 @@ async function updateNodes(total_round, feedback = true, is_sim = false) {
 	const repeat = document.getElementById("simSelect").value;
 	// console.log(repeat)
 	const algo = document.getElementById("algoSelect").value;
-	const m_ETC=4;
+	const m_ETC = 5;
 	for (var j = 0; j < repeat; j++) {
 		var maxValue = nodesData[0].value;
 		var maxIndex = 0;
@@ -90,11 +90,16 @@ async function updateNodes(total_round, feedback = true, is_sim = false) {
 		}
 		total_round.value += 1;
 		for (var i = 0; i < nodesData.length; i++) {
-			var temp=0;
+			var temp = 0;
 			if (algo == 'UCB') { temp = Math.floor((nodesData[i].time / total_round.value + 0.5 * Math.sqrt(2.0 * Math.log(total_round.value) / (nodesData[i].time + 1))) * 100) / 100; }
-			if (algo == 'Random'){temp = Math.floor(Math.random() *100)/100}
-			// if (algo == 'ETC'){}
-			// console.log(nodesData[i].time / total_round.value);
+			if (algo == 'Random') { temp = Math.floor(Math.random() * 100) / 100 }
+			if (algo == 'ETC') {
+				if (total_round.value < n_node * m_ETC) {
+					temp = Math.floor(Math.random() * 100) / 100
+				}
+				else { temp = Math.floor((nodesData[i].time / total_round.value)*100)/100 }
+			}
+			console.log();
 			nodesData[i].value = temp;
 		}
 		total_regret.value += 1 - feedback;
@@ -132,12 +137,12 @@ document.getElementById('dislikeButton').addEventListener('mousedown', function 
 document.getElementById('simButton').addEventListener('mousedown', function () { updateNodes(total_time, feedback = true, is_sim = true) });
 
 const sr = ScrollReveal({
-    distance: '65px',
-    duration: 2600,
-    delay: 450,
-    reset: true
+	distance: '65px',
+	duration: 2600,
+	delay: 450,
+	reset: true
 });
 
 
-sr.reveal('#d3-container', {delay:10, origin:'top'});
-sr.reveal('.button1', {delay:200, origin:'top'});
+sr.reveal('#d3-container', { delay: 10, origin: 'top' });
+sr.reveal('.button1', { delay: 200, origin: 'top' });

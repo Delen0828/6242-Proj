@@ -8,7 +8,7 @@ var linesvg = d3.select("#vis-container")
 	.append("svg")
 	.attr("width", linewidth + margin.left + margin.right)
 	.attr("height", lineheight + margin.top + margin.bottom)
-	.style("background", "lightgrey")
+	.style("background", "#fcfaed")
 	.append("g")
 	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -65,3 +65,5 @@ document.getElementById('simButton').addEventListener('mouseup', function () { d
 document.getElementById('likeButton').addEventListener('mouseup', function () { draw(regret_history) });
 document.getElementById('dislikeButton').addEventListener('mouseup', function () { draw(regret_history) });
 
+sr.reveal('#vis-container', {delay:10, origin:'top'});
+sr.reveal('.algo-sel', {delay:200, origin:'top'});

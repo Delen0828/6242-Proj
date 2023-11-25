@@ -7,7 +7,7 @@ const nodesData = Array.from({ length: n_node }, (_, i) => ({ id: i, value: 0.0,
 const svg = d3.select("#d3-container").append("svg")
 	.attr("width", width)
 	.attr("height", height)
-	.style("background", "lightgrey");
+	.style("background", "#fcfaed");
 const total_regret = { value: 0.0 };
 let regret_history = [];
 nodes = d3_plot(nodesData);
@@ -131,3 +131,14 @@ async function drawNodes(node) {
 document.getElementById('likeButton').addEventListener('mousedown', function () { updateNodes(total_time, feedback = true) });
 document.getElementById('dislikeButton').addEventListener('mousedown', function () { updateNodes(total_time, feedback = false) });
 document.getElementById('simButton').addEventListener('mousedown', function () { updateNodes(total_time, feedback = true, is_sim = true) });
+
+const sr = ScrollReveal({
+    distance: '65px',
+    duration: 2600,
+    delay: 450,
+    reset: true
+});
+
+
+sr.reveal('#d3-container', {delay:10, origin:'top'});
+sr.reveal('.button1', {delay:200, origin:'top'});

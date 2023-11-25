@@ -2,49 +2,87 @@
 <html>
 
 <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Hierarchical Structure Visualization</title>
-	<style>
-		/* Basic styling */
-		.node {
-			stroke: black;
-			stroke-width: 1.5px;
-			cursor: pointer;
-			/* Change cursor on hover over the node */
-		}
 
-		.label,.node-title {
-			font: 12px sans-serif;
-			fill: black;
-		}
+	<!-- Boxicons -->
+	<link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
 
-	</style>
+	<!-- Remixicons -->
+	<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+	<!-- Custom Style -->
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
 </head>
 
 <body>
 	<!-- Include D3.js -->
 	<script src="https://d3js.org/d3.v5.min.js"></script>
-	<div id="d3-container"></div>
 
-	Manual Response
-	<button id="likeButton">Like</button>
-	<button id="dislikeButton">Dislike</button>
+
+	<script src="https://unpkg.com/scrollreveal"></script>
+
+	<header>
+		<a href="#" class="title">Interactive Visualization of Recommendation System</a>
+	</header>
+
+	<div id='k-select'>Put k select button here.</div>
+
+	<div class="container1">
+		<div id="d3-container"></div>
+		<!-- <div class="button1">
+			<div id="manual-resp">
+				Manual Response
+				<a href="#" id="likeButton"><i class="ri-thumb-up-fill"></i></a>
+				<a href="#" id="dislikeButton"><i class="ri-thumb-down-fill"></i></a>
+			</div>
+			<div id="auto-sim">
+				Auto Simulate
+				<select id="simSelect" name="simulation round">
+					<option value=10>10 rounds</option>
+					<option value=50>50 rounds</option>
+					<option value=100>100 rounds</option>
+				</select>
+				<button id="simButton">Simulate</button>
+			</div>
+		</div> -->
+	</div>
+
+	<div class="algo-sel">
+		Algorithm
+		<select id="algoSelect" name="algorithm">
+			<option value='UCB'>UCB</option>
+			<option value='LinUCB'>LinUCB</option>
+			<option value='Random'>Random</option>
+		</select>
+	</div>
 	<br>
-	Auto Simulate
-	<button id="simButton">Simulate</button>
-	<select id="simSelect" name="simulation round">
-		<option value=10>10 rounds</option>
-		<option value=50>50 rounds</option>
-		<option value=100>100 rounds</option>
-	</select>
-	<br>
-	Algorithm
-	<select id="algoSelect" name="algorithm">
-		<option value='UCB'>UCB</option>
-		<option value='LinUCB'>LinUCB</option>
-		<option value='Random'>Random</option>
-	</select>
-	<br>
-	<div id="vis-container"></div>
+	<div class="bottom-sec">
+		<div id="vis-container"></div>
+		<div class="button1">
+			<div id="manual-resp">
+				Manual Response
+				<a href="#" id="likeButton"><i class="ri-thumb-up-fill"></i></a>
+				<a href="#" id="dislikeButton"><i class="ri-thumb-down-fill"></i></a>
+			</div>
+			<div id="auto-sim">
+				Auto Simulate
+				<select id="simSelect" name="simulation round">
+					<option value=10>10 rounds</option>
+					<option value=50>50 rounds</option>
+					<option value=100>100 rounds</option>
+				</select>
+				<button id="simButton">Simulate</button>
+			</div>
+		</div>
+	</div>
 
 	<script src="js.js"></script>
 	<script src="vis.js"></script>

@@ -33,39 +33,38 @@
 		<a href="#" class="title">Interactive Visualization of Recommendation System</a>
 	</header>
 
-	<div id='k-select'>Put k select button here.</div>
+	<div id='n-select'>Put n select button here.</div>
 
 	<div class="container1">
 		<div id="d3-container"></div>
-		<!-- <div class="button1">
-			<div id="manual-resp">
-				Manual Response
-				<a href="#" id="likeButton"><i class="ri-thumb-up-fill"></i></a>
-				<a href="#" id="dislikeButton"><i class="ri-thumb-down-fill"></i></a>
+		<div class="algo-sel">
+			Algorithm
+			<select id="algoSelect" name="algorithm">
+				<option value='UCB'>UCB</option>
+				<option value='LinUCB'>LinUCB</option>
+				<option value='Random'>Random</option>
+			</select>
+			<div id="vis-container"></div>
+			<div class="button1">
+				<div id="manual-resp">
+					Manual Response
+					<a href="#" id="likeButton"><i class="ri-thumb-up-fill"></i></a>
+					<a href="#" id="dislikeButton"><i class="ri-thumb-down-fill"></i></a>
+				</div>
+				<div id="auto-sim">
+					Auto Simulate
+					<select id="simSelect" name="simulation round">
+						<option value=10>10 rounds</option>
+						<option value=50>50 rounds</option>
+						<option value=100>100 rounds</option>
+					</select>
+					<button id="simButton">Simulate</button>
+				</div>
 			</div>
-			<div id="auto-sim">
-				Auto Simulate
-				<select id="simSelect" name="simulation round">
-					<option value=10>10 rounds</option>
-					<option value=50>50 rounds</option>
-					<option value=100>100 rounds</option>
-				</select>
-				<button id="simButton">Simulate</button>
-			</div>
-		</div> -->
+		</div>
 	</div>
 
-	<div class="algo-sel">
-		Algorithm
-		<select id="algoSelect" name="algorithm">
-			<option value='UCB'>UCB</option>
-			<option value='LinUCB'>LinUCB</option>
-			<option value='Random'>Random</option>
-		</select>
-	</div>
-	<br>
-	<div class="bottom-sec">
-		<div id="vis-container"></div>
+	<!-- <div class="bottom-sec">
 		<div class="button1">
 			<div id="manual-resp">
 				Manual Response
@@ -82,7 +81,7 @@
 				<button id="simButton">Simulate</button>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<script src="js.js"></script>
 	<script src="vis.js"></script>

@@ -118,7 +118,8 @@ body {
 }
 
 #vis-container svg{
-    margin-left: 25px;
+    margin-top: 5px;
+    margin-left: 5px;
     display: inline-block;
     border: 1px solid transparent;
     border-radius: 10px;
@@ -133,5 +134,8 @@ body {
 
 .algo-sel{
     margin-left: 20px;
-    margin-top: 20px;
+}
+
+#n-select{
+    margin-left: 20px;
 }

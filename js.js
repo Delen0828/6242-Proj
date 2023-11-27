@@ -36,16 +36,17 @@ async function load_yelp() {
 async function get_name(mapping) {
 	yelp_review = await load_yelp();
 	let textData = Array.from({ length: n_node }, (_, i) => ({ id: i, text: yelp_review[mapping[i]][0] }));
-	console.log(mapping[0], mapping[1], mapping[2], mapping[3], mapping[4]);
+	// console.log(mapping[0], mapping[1], mapping[2], mapping[3], mapping[4]);
 	return textData
 }
 async function get_review(mapping) {
 	if (total_time.value == 0) { yelp_review = await load_yelp(); }
 	let reviewData = Array.from({ length: n_node }, (_, i) => ({ id: i, review: yelp_review[mapping[i]][1] }));
+	// console.log(reviewData);
 	return reviewData
 }
 async function text_plot(node) {
-	console.log(total_time.value)
+	// console.log(total_time.value)
 	if (total_time.value == 0) { textData = await get_name(mapping); }
 	node.append("text")
 		.data(textData)
@@ -93,23 +94,22 @@ async function updateNodes(total_round, algo, algo_comp, feedback, is_sim) {
 			}
 			if (nodesData[i].comp_value > maxCompValue) { maxCompValue = nodesData[i].comp_value; maxCompIndex = i; }
 		}
-		console.log(maxCompIndex)
+		// console.log(maxCompIndex)
 		nodesData[maxIndex].color = 'coral';
 		// console.log(nodesData[maxIndex]);
 		if (is_sim == false) {
 			nodesData[maxIndex].time += feedback;
 			feedback_comp = feedback;
 			nodesData[maxCompIndex].comp_time += feedback_comp;
-			// console.log(feedback)
 		}
 		else {
 			var temp_len = reviewData[maxIndex]['review'].length;
 			var temp_len_comp = reviewData[maxCompIndex]['review'].length;
-			feedback = reviewData[maxIndex]['review'][total_round.value * (temp_len - 1) % temp_len]
+			feedback = reviewData[maxIndex]['review'][total_round.value % temp_len]
 			nodesData[maxIndex].time += feedback;
-			feedback_comp = reviewData[maxCompIndex]['review'][total_round.value * (temp_len - 1) % temp_len_comp]
-			nodesData[maxCompIndex].comp_timetime += feedback_comp;
-
+			feedback_comp = reviewData[maxCompIndex]['review'][total_round.value % temp_len_comp]
+			nodesData[maxCompIndex].comp_time+= feedback_comp;
+			// console.log(feedback,feedback_comp)
 			// console.log(reviewData[maxIndex]['review'][total_round.value % temp_len])
 		}
 
@@ -139,7 +139,7 @@ async function updateNodes(total_round, algo, algo_comp, feedback, is_sim) {
 		comp_total_regret.value += feedback_comp;
 		regret_history.push({ "round": total_time.value, "value": total_regret.value / total_time.value })
 		comp_regret_history.push({ "round": total_time.value, "value": comp_total_regret.value / total_time.value })
-
+		// console.log(feedback,feedback_comp)
 		// Update labels
 		updateLabels();
 		if (is_sim == false) { break; }

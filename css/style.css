@@ -51,11 +51,13 @@
 }
 
 .title {
-    background: transparent;
-    font-size: 64px;
+    /* background: rgb(100,100,100); */
+	padding:10px 30px;
+    font-size: 68px;
     font-weight: 700;
-    color: white;
-    margin-left: 30px;
+    color: #ff7f50;
+    margin-left: 0px;
+	text-shadow: 2px 2px 0px rgb(238, 144, 110), 4px 4px 0px rgb(222, 162, 140), 6px 6px 0px rgb(205, 180, 170),8px 8px 0px rgb(189, 198, 200), 10px 10px 0px rgb(173, 216, 230), 12px 12px 0px rgb(156, 234, 260);
 }
 
 #m_ETC{
@@ -98,7 +100,7 @@ body {
 
 #simButton:hover {
 	/* margin-left: 5px; */
-    background: orange;
+    background: #f79f1f;
     border: 1px solid white;
     /* transform: translateX(5px); */
 }

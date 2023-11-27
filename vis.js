@@ -31,6 +31,24 @@ linesvg.append("g")
 linesvg.append("g")
 	.attr("class", "y-axis")
 	.call(d3.axisLeft(yScale));
+
+linesvg.append("text")
+   .attr("class", "x-axis-label")
+   .attr("x", linewidth / 2)
+   .attr("y", lineheight + 27) // Adjust the Y-position for label
+   .style("text-anchor", "middle")
+   .style("font-size", "12px")
+   .text("Round");
+
+// Add Y-axis label
+linesvg.append("text")
+   .attr("class", "y-axis-label")
+   .attr("transform", "rotate(-90)")
+   .attr("x", -lineheight / 2)
+   .attr("y", -30) // Adjust the Y-position for label
+   .style("text-anchor", "middle")
+   .style("font-size", "12px")
+   .text("Avg. Feedback");
 // linesvg.append("path")
 // 	.data([{ "round": 0, "value": 0 }, { "round": 10, "value": 0 }])
 // 	.attr("class", "line")
@@ -59,9 +77,8 @@ function draw(plt_data, comp_data, comp_algo) {
 		.attr("stroke", "coral")
 		.attr("stroke-width", 2)
 		.attr("d", line);
-	console.log(comp_algo)
+	// console.log(comp_algo)
 	if (comp_algo != 'None') {
-		
 		linesvg.append("path")
 			.data([comp_data])
 			.attr("class", "line")

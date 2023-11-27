@@ -15,7 +15,8 @@
 	<!-- Google Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+		rel="stylesheet">
 
 	<!-- Custom Style -->
 	<link rel="stylesheet" type="text/css" href="css/style.css">
@@ -37,20 +38,25 @@
 	<div class="container1">
 		<div id="d3-container"></div>
 		<div class="algo-sel">
-			Algorithm 1
+			<p style="color: coral;font-weight: bolder;">Algorithm 1</p>
 			<select id="algoSelect" name="algorithm">
 				<option value='UCB'>UCB</option>
 				<option value='ETC'>ETC</option>
 				<option value='Random'>Random</option>
 			</select>
+			k_UCB: <input type="number" id="k_UCB" min="0" step="0.1" value="0.2">
+			m_ETC: <input type="number" id="m_ETC" min="0" step="1" value="5">
 			<br>
-			Algorithm 2 (Comparison)
+			<p style="color: lightblue;font-weight: bolder;">Algorithm 2</p>
 			<select id="compSelect" name="algorithm">
 				<option value='None'>None</option>
 				<option value='UCB'>UCB</option>
 				<option value='ETC'>ETC</option>
 				<option value='Random'>Random</option>
 			</select>
+			k_UCB: <input type="number" id="k_UCB2" min="0" step="0.1" value="0.2">
+			m_ETC: <input type="number" id="m_ETC2" min="0" step="1" value="5">
+			<!-- <div id="spacing1"></div> -->
 			<div id="vis-container"></div>
 			<div class="button1">
 				<div id="manual-resp">

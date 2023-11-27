@@ -58,9 +58,29 @@
     margin-left: 30px;
 }
 
+#m_ETC{
+	width: 50px;
+}
+#k_UCB{
+	width: 50px;
+}
+#m_ETC2{
+	width: 50px;
+}
+#k_UCB2{
+	width: 50px;
+}
+
+/* .spacing1{
+	height: 20px;
+} */
+
 body {
     /* background: linear-gradient(245.59deg, #4d9559 0%, #38703d 28.53%, #133917 75.52%); */
-    background: linear-gradient(245.59deg, rgb(144, 131, 83) 0%, rgb(107, 97, 61) 28.53%, rgb(72, 65, 41) 75.52%);
+    background:  #8a8886;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: 100% 100%;
 
 }
 
@@ -94,9 +114,10 @@ body {
 }
 
 #likeButton i {
+	margin-left:5px;
     display: block;
     color: black;
-    font-size: 24px;
+    font-size: 30px;
     transition: all .50s ease;
 }
 
@@ -105,9 +126,10 @@ body {
 }
 
 #dislikeButton i {
+	margin-left:5px;
     display: block;
     color: black;
-    font-size: 24px;
+    font-size: 30px;
     transition: all .50s ease;
 }
 
@@ -120,8 +142,9 @@ body {
 }
 
 #vis-container svg{
-    margin-top: 5px;
+    margin-top: 15px;
     margin-left: 5px;
+	margin-bottom: 15px;
     display: inline-block;
     border: 1px solid transparent;
     border-radius: 10px;
@@ -137,3 +160,11 @@ body {
 .algo-sel{
     margin-left: 60px;
 }
+
+/* .simSelect{
+	margin-left: 10px;
+}
+
+.simButton{
+	margin-left: 10px;
+} */

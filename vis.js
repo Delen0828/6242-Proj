@@ -2,8 +2,8 @@
 
 // Set the dimensions of the chart
 var margin = { top: 20, right: 30, bottom: 30, left: 40 };
-var linewidth = 300 - margin.left - margin.right;
-var lineheight = 200 - margin.top - margin.bottom;
+var linewidth = 320 - margin.left - margin.right;
+var lineheight = 240 - margin.top - margin.bottom;
 var linesvg = d3.select("#vis-container")
 	.append("svg")
 	.attr("width", linewidth + margin.left + margin.right)
@@ -31,16 +31,16 @@ linesvg.append("g")
 linesvg.append("g")
 	.attr("class", "y-axis")
 	.call(d3.axisLeft(yScale));
-linesvg.append("path")
-	.data([{ "round": 0, "value": 0 }, { "round": 10, "value": 0 }])
-	.attr("class", "line")
-	.attr("fill", "none")
-	.attr("stroke", "steelblue")
-	.attr("stroke-width", 1.5)
-	.attr("d", line);
+// linesvg.append("path")
+// 	.data([{ "round": 0, "value": 0 }, { "round": 10, "value": 0 }])
+// 	.attr("class", "line")
+// 	.attr("fill", "none")
+// 	.attr("stroke", "steelblue")
+// 	.attr("stroke-width", 1.5)
+// 	.attr("d", line);
 // plt_data = [{ "round": 0, "value": 0 }]
 
-function draw(plt_data) {
+function draw(plt_data, comp_data, comp_algo) {
 	xScale.domain([0, d3.max(plt_data, function (d) { return d.round; })]);
 	yScale.domain([0, d3.max(plt_data, function (d) { return d.value; })]);
 	linesvg.selectAll("path").remove()
@@ -56,14 +56,25 @@ function draw(plt_data) {
 		.data([plt_data])
 		.attr("class", "line")
 		.attr("fill", "none")
-		.attr("stroke", "steelblue")
-		.attr("stroke-width", 1.5)
+		.attr("stroke", "coral")
+		.attr("stroke-width", 2)
 		.attr("d", line);
+	console.log(comp_algo)
+	if (comp_algo != 'None') {
+		
+		linesvg.append("path")
+			.data([comp_data])
+			.attr("class", "line")
+			.attr("fill", "none")
+			.attr("stroke", "steelblue")
+			.attr("stroke-width", 2)
+			.attr("d", line);
+	}
 }
 
-document.getElementById('simButton').addEventListener('mouseup', function () { draw(regret_history) });
-document.getElementById('likeButton').addEventListener('mouseup', function () { draw(regret_history) });
-document.getElementById('dislikeButton').addEventListener('mouseup', function () { draw(regret_history) });
+document.getElementById('simButton').addEventListener('mouseup', function () { draw(regret_history, comp_regret_history, comp_algo) });
+document.getElementById('likeButton').addEventListener('mouseup', function () { draw(regret_history, comp_regret_history, comp_algo) });
+document.getElementById('dislikeButton').addEventListener('mouseup', function () { draw(regret_history, comp_regret_history, comp_algo) });
 
-sr.reveal('#vis-container', {delay:10, origin:'top'});
-sr.reveal('.algo-sel', {delay:10, origin:'top'});
+sr.reveal('#vis-container', { delay: 10, origin: 'top' });
+sr.reveal('.algo-sel', { delay: 10, origin: 'top' });
